@@ -7,6 +7,6 @@ public class UpgradeText : MonoBehaviour
     public int cost;
         void Update()
     {
-        text.text = "Upgrade Costs: " + cost;
+        text.text = "Upgrade Costs: " + cost.ToString("G2");
     }
 }

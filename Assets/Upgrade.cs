@@ -9,19 +9,14 @@ public class Upgrade : MonoBehaviour
     public int StarterPrice;
     public int price;
     public int building = 0;
-    private void Start() 
-    {
-        price = StarterPrice;
-    }
     void UpgradeMo(int mo)
     {
-        if (text.GetComponent<SetText>().money >= price)
+        if (text.GetComponent<SetText>().money >= UpgradeText.GetComponent<UpgradeText>().cost)
         {
             building+=mo;
             clicker.GetComponent<Click>().ClickMoney += mo;
-            text.GetComponent<SetText>().money -= 5;
-            price += Mathf.RoundToInt(Mathf.Pow(1.15f,building));
-            UpgradeText.GetComponent<UpgradeText>().cost = price;
+            text.GetComponent<SetText>().money -= UpgradeText.GetComponent<UpgradeText>().cost;
+            UpgradeText.GetComponent<UpgradeText>().cost = Mathf.RoundToInt(UpgradeText.GetComponent<UpgradeText>().cost * Mathf.Pow(1.15f,building));
         }
     }
     private void OnMouseDown() {
