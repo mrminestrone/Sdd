@@ -3,10 +3,17 @@ using UnityEngine.UI;
 
 public class SetText : MonoBehaviour
 {
-    public int money = 0;
-    public Text text;
-    void Update()
+    public int Money = 0;
+    private Text text;
+    //add the money
+    private void AddMoney(int MoneyAdded)
     {
-        text.text = money.ToString("G2");
+        Money += MoneyAdded;
+        text.text = Money.ToString("G7");
+    }
+    //Subscribe to onClickClicker event
+    private void Start() 
+    {
+        GameEvents.current.onClickClicker += AddMoney;
     }
 }
