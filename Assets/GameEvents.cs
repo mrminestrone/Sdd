@@ -4,7 +4,6 @@ using UnityEngine;
 public class GameEvents : MonoBehaviour
 {
     public static GameEvents current;
-
     private void Awake() 
     {
         current = this;
@@ -19,13 +18,22 @@ public class GameEvents : MonoBehaviour
             onClickClicker(ClickMoney);
         }
     }
-
-    public event Action onClickClickUpgrade;
-    public void ClickClickUpgrade()
+    //check price of upgrade
+    public event Action<int> onClickClickUpgrade;
+    public void ClickClickUpgrade(int UpgradePrice)
     {
         if (onClickClickUpgrade != null)
         {
-            onClickClickUpgrade();
+            onClickClickUpgrade(UpgradePrice);
+        }
+    }
+    //do upgrade
+    public event Action onConfirmUpgradePrice;
+    public void ConfirmUpgradePrice()
+    {
+        if (onConfirmUpgradePrice != null)
+        {
+            onConfirmUpgradePrice();
         }
     }
 }

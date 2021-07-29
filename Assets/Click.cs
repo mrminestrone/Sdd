@@ -1,13 +1,20 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class Click : MonoBehaviour
+public class Click : MonoBehaviour, IPointerClickHandler
 {
-    public Text text;
     public int ClickMoney = 1;
     // Trigger event system to add money to player = to ClickMoney
-    void OnMouseDown() 
+    public void OnPointerClick(PointerEventData eventData)
     {
         GameEvents.current.ClickClicker(ClickMoney);
+    }
+    private void Start() 
+    {
+        GameEvents.current.onConfirmUpgradePrice += Upgrade;
+    }
+    private void Upgrade()
+    {
+        ClickMoney++;
     }
 }

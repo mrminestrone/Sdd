@@ -1,26 +1,23 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class Upgrade : MonoBehaviour
+public class Upgrade : MonoBehaviour, IPointerClickHandler
 {
-    public Text text;
-    public Text UpgradeText;
-    public GameObject clicker;
-    public int StarterPrice;
-    public int price;
-    public int building = 0;
-    //This needs to be changed to use the events system
-    void UpgradeMo(int mo)
+    public int Upgrades;
+    int price;
+    private void Awake() 
     {
-        if (text.GetComponent<SetText>().Money >= UpgradeText.GetComponent<UpgradeText>().cost)
-        {
-            building+=mo;
-            clicker.GetComponent<Click>().ClickMoney += mo;
-            text.GetComponent<SetText>().Money -= UpgradeText.GetComponent<UpgradeText>().cost;
-            UpgradeText.GetComponent<UpgradeText>().cost = Mathf.RoundToInt(UpgradeText.GetComponent<UpgradeText>().cost * Mathf.Pow(1.15f,building));
-        }
+        GameEvents.current.onConfirmUpgradePrice += U;
+        price = 15;
     }
-    private void OnMouseDown() {
-        UpgradeMo(1);
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        GameEvents.current.ClickClickUpgrade(price);
+    }
+    private void U()
+    {
+        Upgrades++;
+        price = Mathf.RoundToInt(price * Mathf.Pow(1.15f,Upgrades));
     }
 }
