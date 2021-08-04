@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SetText : MonoBehaviour
+public class Buildingtext : MonoBehaviour
 {
-    public int Money = 0;
     public Text text;
-    //round number
+    public GameObject building;
+    public int price;
     string[] shortNotation = new string[12] {"", "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"};
     public string FormatEveryThirdPower(string[] notations, float target, string lowDecimalFormat)
         {
@@ -36,38 +36,9 @@ public class SetText : MonoBehaviour
             return value.ToString(toStringValue) + notationValue;
         }
 
-    //Subscribe to all events
-    private void Start() 
+    void Update()
     {
-        GameEvents.current.onClickClicker += AddMoney;
-        GameEvents.current.onClickClickUpgrade += CheckUpgrade;
-        GameEvents.current.onBuyBuilding += CheckBuilding;
-        text.text = FormatEveryThirdPower(shortNotation, Money, "");
-    }
-    //add the money
-    private void AddMoney(int MoneyAdded)
-    {
-        Money += MoneyAdded;
-        text.text = FormatEveryThirdPower(shortNotation, Money, "");
-    }
-    //check if enough money for upgrade
-    public void CheckUpgrade(int UpgradePrice)
-    {
-        if (Money >= UpgradePrice)
-        {
-            Money -= UpgradePrice;
-            text.text = FormatEveryThirdPower(shortNotation, Money, "");
-            GameEvents.current.ConfirmUpgradePrice();
-        }
-    }
-    //check if enough money for building
-    public void CheckBuilding(int BuildingPrice)
-    {
-        if (Money >= BuildingPrice)
-        {
-            Money -= BuildingPrice;
-            text.text = FormatEveryThirdPower(shortNotation, Money, "");
-            GameEvents.current.ConfirmBuyBuilding();
-        }
+        price = building.GetComponent<Building>().price;
+        text.text = "Upgrade Costs: " + FormatEveryThirdPower(shortNotation, price, "");
     }
 }

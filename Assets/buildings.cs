@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SetText : MonoBehaviour
+public class buildings : MonoBehaviour
 {
-    public int Money = 0;
     public Text text;
-    //round number
+    public GameObject building;
+    public int amount;
+    public int pog;
+    public int pogs;
     string[] shortNotation = new string[12] {"", "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"};
     public string FormatEveryThirdPower(string[] notations, float target, string lowDecimalFormat)
         {
@@ -36,38 +38,30 @@ public class SetText : MonoBehaviour
             return value.ToString(toStringValue) + notationValue;
         }
 
-    //Subscribe to all events
-    private void Start() 
+    private void Awake() 
     {
-        GameEvents.current.onClickClicker += AddMoney;
-        GameEvents.current.onClickClickUpgrade += CheckUpgrade;
-        GameEvents.current.onBuyBuilding += CheckBuilding;
-        text.text = FormatEveryThirdPower(shortNotation, Money, "");
+        GameEvents.current.onConfirmBuyBuilding += B;
+        InvokeRepeating("AddMoney", 0f, 10f);
     }
-    //add the money
-    private void AddMoney(int MoneyAdded)
+
+    void B(int[] amogus)
     {
-        Money += MoneyAdded;
-        text.text = FormatEveryThirdPower(shortNotation, Money, "");
-    }
-    //check if enough money for upgrade
-    public void CheckUpgrade(int UpgradePrice)
-    {
-        if (Money >= UpgradePrice)
+        building.GetComponent<Building>().whichbuild = pog;
+        building.GetComponent<Building>().Buildings = pogs;
+        if (amogus[pog] < pogs)
         {
-            Money -= UpgradePrice;
-            text.text = FormatEveryThirdPower(shortNotation, Money, "");
-            GameEvents.current.ConfirmUpgradePrice();
+            amount++;
         }
     }
-    //check if enough money for building
-    public void CheckBuilding(int BuildingPrice)
+
+    void AddMoney()
     {
-        if (Money >= BuildingPrice)
-        {
-            Money -= BuildingPrice;
-            text.text = FormatEveryThirdPower(shortNotation, Money, "");
-            GameEvents.current.ConfirmBuyBuilding();
-        }
+        building.GetComponent<Building>().Buildings = pogs;
+        building.GetComponent<Building>().whichbuild = pog;
+        GameEvents.current.ClickClicker(Mathf.RoundToInt(Mathf.Pow(5f, pog)*pogs));
+    }
+    void Update()
+    {
+        text.text = "You Have " + FormatEveryThirdPower(shortNotation, amount, "") + " Buildings";
     }
 }
