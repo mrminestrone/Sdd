@@ -1,10 +1,12 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class UpgradeText : MonoBehaviour
 {
-    public Text text;
-    public int price = 15;
+    public TextMeshProUGUI text;
+    public GameObject Upgrade;
+    public int price;
+    public int amt;
     int Upgrades;
     string[] shortNotation = new string[12] {"", "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"};
     public string FormatEveryThirdPower(string[] notations, float target, string lowDecimalFormat)
@@ -38,15 +40,8 @@ public class UpgradeText : MonoBehaviour
 
     void Update()
     {
-        text.text = "Upgrade Costs: " + FormatEveryThirdPower(shortNotation, price, "");
-    }
-    private void Start() 
-    {
-        GameEvents.current.onConfirmUpgradePrice += U;
-    }
-    private void U()
-    {
-        Upgrades++;
-        price = Mathf.RoundToInt(price * Mathf.Pow(1.15f,Upgrades));
+        price = Upgrade.GetComponent<Upgrade>().price;
+        amt = Upgrade.GetComponent<Upgrade>().Upgrades;
+        text.text = "This Costs: " + FormatEveryThirdPower(shortNotation, price, "") + "\nYou have: "+ FormatEveryThirdPower(shortNotation, amt, "");
     }
 }

@@ -1,10 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class SetText : MonoBehaviour
 {
     public int Money = 0;
-    public Text text;
+    public TextMeshProUGUI text;
     //round number
     string[] shortNotation = new string[12] {"", "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"};
     public string FormatEveryThirdPower(string[] notations, float target, string lowDecimalFormat)
@@ -42,13 +42,13 @@ public class SetText : MonoBehaviour
         GameEvents.current.onClickClicker += AddMoney;
         GameEvents.current.onClickClickUpgrade += CheckUpgrade;
         GameEvents.current.onBuyBuilding += CheckBuilding;
-        text.text = FormatEveryThirdPower(shortNotation, Money, "");
+        text.text = FormatEveryThirdPower(shortNotation, Money, "") + " <sprite=0>";
     }
     //add the money
     private void AddMoney(int MoneyAdded)
     {
         Money += MoneyAdded;
-        text.text = FormatEveryThirdPower(shortNotation, Money, "");
+        text.text = FormatEveryThirdPower(shortNotation, Money, "") + " <sprite=0>";
     }
     //check if enough money for upgrade
     public void CheckUpgrade(int UpgradePrice)
@@ -56,7 +56,7 @@ public class SetText : MonoBehaviour
         if (Money >= UpgradePrice)
         {
             Money -= UpgradePrice;
-            text.text = FormatEveryThirdPower(shortNotation, Money, "");
+            text.text = FormatEveryThirdPower(shortNotation, Money, "") + " <sprite=0>";
             GameEvents.current.ConfirmUpgradePrice();
         }
     }
@@ -66,7 +66,7 @@ public class SetText : MonoBehaviour
         if (Money >= BuildingPrice)
         {
             Money -= BuildingPrice;
-            text.text = FormatEveryThirdPower(shortNotation, Money, "");
+            text.text = FormatEveryThirdPower(shortNotation, Money, "") + " <sprite=0>";
             GameEvents.current.ConfirmBuyBuilding();
         }
     }

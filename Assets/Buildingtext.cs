@@ -1,11 +1,12 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class Buildingtext : MonoBehaviour
 {
-    public Text text;
+    public TextMeshProUGUI text;
     public GameObject building;
     public int price;
+    public int amt;
     string[] shortNotation = new string[12] {"", "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"};
     public string FormatEveryThirdPower(string[] notations, float target, string lowDecimalFormat)
         {
@@ -39,6 +40,7 @@ public class Buildingtext : MonoBehaviour
     void Update()
     {
         price = building.GetComponent<Building>().price;
-        text.text = "Upgrade Costs: " + FormatEveryThirdPower(shortNotation, price, "");
+        amt = building.GetComponent<Building>().Buildings;
+        text.text = "This Costs: " + FormatEveryThirdPower(shortNotation, price, "") + "\nYou have: "+ FormatEveryThirdPower(shortNotation, amt, "");
     }
 }

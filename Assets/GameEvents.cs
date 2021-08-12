@@ -5,7 +5,9 @@ public class GameEvents : MonoBehaviour
 {
     public static GameEvents current;
     int wb;
+    int wu;
     int[] BuildingArray = new int[5] {0,0,0,0,0};
+    int[] UpgradeArray = new int[6] {0,0,0,0,0,0};
     private void Awake() 
     {
         current = this;
@@ -22,20 +24,22 @@ public class GameEvents : MonoBehaviour
     }
     //check price of upgrade
     public event Action<int> onClickClickUpgrade;
-    public void ClickClickUpgrade(int UpgradePrice)
+    public void ClickClickUpgrade(int WhichUpgrade, int UpgradePrice)
     {
         if (onClickClickUpgrade != null)
         {
             onClickClickUpgrade(UpgradePrice);
+            wu = WhichUpgrade;
         }
     }
     //do upgrade
-    public event Action onConfirmUpgradePrice;
+    public event Action<int[]> onConfirmUpgradePrice;
     public void ConfirmUpgradePrice()
     {
         if (onConfirmUpgradePrice != null)
         {
-            onConfirmUpgradePrice();
+            UpgradeArray[wu]++;
+            onConfirmUpgradePrice(UpgradeArray);
         }
     }
     //Confirm have amount of money for building
@@ -54,7 +58,7 @@ public class GameEvents : MonoBehaviour
     {
         if (onConfirmBuyBuilding != null)
         {
-            BuildingArray[wb] += 1;
+            BuildingArray[wb]++;
             onConfirmBuyBuilding(BuildingArray);
         }
     }

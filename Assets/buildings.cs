@@ -41,13 +41,13 @@ public class buildings : MonoBehaviour
     private void Awake() 
     {
         GameEvents.current.onConfirmBuyBuilding += B;
+        pog = building.GetComponent<Building>().whichbuild;
         InvokeRepeating("AddMoney", 0f, 10f);
     }
 
     void B(int[] amogus)
     {
-        building.GetComponent<Building>().whichbuild = pog;
-        building.GetComponent<Building>().Buildings = pogs;
+        pogs = building.GetComponent<Building>().Buildings;
         if (amogus[pog] < pogs)
         {
             amount++;
@@ -56,9 +56,9 @@ public class buildings : MonoBehaviour
 
     void AddMoney()
     {
-        building.GetComponent<Building>().Buildings = pogs;
-        building.GetComponent<Building>().whichbuild = pog;
-        GameEvents.current.ClickClicker(Mathf.RoundToInt(Mathf.Pow(5f, pog)*pogs));
+        pogs = building.GetComponent<Building>().Buildings;
+        GameEvents.current.ClickClicker(Mathf.RoundToInt(Mathf.Pow(5f, pog + 1)*pogs));
+        Debug.Log(Mathf.RoundToInt(Mathf.Pow(5f, pog + 1)*pogs));
     }
     void Update()
     {

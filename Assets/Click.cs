@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 public class Click : MonoBehaviour, IPointerClickHandler
 {
     public int ClickMoney = 1;
+    int UpgradeTimes;
     // Trigger event system to add money to player = to ClickMoney
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -13,8 +14,12 @@ public class Click : MonoBehaviour, IPointerClickHandler
     {
         GameEvents.current.onConfirmUpgradePrice += Upgrade;
     }
-    private void Upgrade()
+    private void Upgrade(int[] uarray)
     {
-        ClickMoney++;
+        if (uarray[0] > UpgradeTimes)
+        {
+            ClickMoney++;
+            UpgradeTimes++;
+        }    
     }
 }
